@@ -169,9 +169,6 @@ app.get('/api/exercise/log', function (req, res) {
                     );
                 }
             })
-            .and({ date: { $gte: new Date(from) } })
-            .and({ date: { $lte: new Date(to) } })
-            .limit(limit);
         }
     })
 });
