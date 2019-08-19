@@ -133,54 +133,6 @@ app.post('/api/exercise/add', function (req, res) {
 //get user's full erxercise log or part of a log and return user object
 //with an array of log and count(exercises count)
 
-app.get('/api/exercise/log', function (req, res) {
-    var userId = req.query.userId;
-    var from = req.query.from;
-    var to = req.query.to;
-    var limit = req.query.limit;
-
-    if (!userId) res.send("No user ID specified and is required");
-    if (!from) from = "1970-01-01";
-    if (!to) to = "2200-12-30";
-    if (!limit || limit < 1) {
-        limit = 9999999999999;
-    } else {
-        limit = parseInt(limit);
-    }
-
-    ExerciseUserTable.findById(userId, function (error, user) {
-        if (error) {
-            res.send(error);
-        }
-        if (user) {
-            ExerciseDetailsTable.find({ userId: userId }, function (error, details) {
-                if (error) {
-                    console.log(error);
-                    console.log('error')
-                } else {
-                    var mappedDetails = details.map(DetailsMapper);
-
-                    res.json({
-                        userId: user._id,
-                        username: user.username,
-                        logs: mappedDetails,
-                        count: details.length
-                    }
-                    );
-                }
-            })
-        }
-    })
-});
-
-
-function DetailsMapper(detail) {
-    return {
-        description: detail.description,
-        duration: detail.duration,
-        date: detail.date
-    }
-}
 
 
 
